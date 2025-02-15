@@ -10,6 +10,10 @@
     <p>Name: {{ name }}</p>
     <p>Message: {{ message }}</p>
     <a href="/">Go Back</a>
+    <video width="600" controls>
+        <source src="{{ url_for('static', filename='v1.mp4' ) }}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
 </body>
 
 </html>
