@@ -1,3 +1,17 @@
+"""
+Implements the tester back-end using perplexity. 
+Feature Requirements: 
+    - Capability of mistake-catching 
+    - Capability of suggesting industry standard solutions
+    - Citations
+    - Memory in the conversation
+    - Fast responses 
+    - Streamed responses
+    
+Date: 02/15/25
+Author: Andrea Miramontes Serrano
+
+"""
 import requests
 import json
 
