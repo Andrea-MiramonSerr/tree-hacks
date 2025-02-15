@@ -7,7 +7,11 @@ Feature Requirements:
     - Memory in the conversation
     - Fast responses 
     - Streamed responses
-    
+
+Features Implemented: 
+    - Memory 
+    - 
+
 Date: 02/15/25
 Author: Andrea Miramontes Serrano
 
@@ -61,7 +65,12 @@ def ask_perplexity(prompt: str) -> str:
     else:
         return f"Error: {response.status_code}, {response.text}"
 
-# Example usage
-user_prompt = input("Enter your prompt: ")
-response = ask_perplexity(user_prompt)
+# ----------------- USAGE -----------------
+import sys #TODO: remove - only here for debugging purposes
+if len(sys.argv) > 1:
+    user_input = sys.argv[1]  # Takes input from launch.json
+else:
+    user_input = input("Enter your prompt: ")  # Fallback manual input
+# user_prompt = input("Enter your prompt: ")
+response = ask_perplexity(user_input)
 print("\nPerplexity AI Response:\n", response)
