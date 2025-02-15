@@ -8,9 +8,10 @@ Feature Requirements:
     - Fast responses 
     - Streamed responses
 
-Features Implemented: 
-    - Memory 
-    - 
+Features Implemented/Guaranteed: 
+    - Output response 
+    - Capability of mistake-catching 
+    - Citations
 
 Date: 02/15/25
 Author: Andrea Miramontes Serrano
@@ -61,7 +62,7 @@ def ask_perplexity(prompt: str) -> str:
 
     if response.status_code == 200:
         result = response.json()
-        return result["choices"][0]["message"]["content"]
+        return result["choices"][0]["message"]["content"], result["citations"]
     else:
         return f"Error: {response.status_code}, {response.text}"
 
