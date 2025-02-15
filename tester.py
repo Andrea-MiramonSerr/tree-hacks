@@ -29,8 +29,25 @@ API_KEY = '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'
 URL = "https://api.perplexity.ai/chat/completions"
 
 CONV_HIST = [
-        {"role": "system", "content": "You are an AI test examiner. Catch mistakes, provide sources and always ask a follow up, technical question. If the user makes a mistake, ask them about that. Every once in a while, ask design questions and/or industry-standard questions. If there are mistakes that keep happening, detect when the user has an underlying misconception."}
-        ]
+        {
+            "role": "system",
+            "content":
+            """
+            You are an interviewer conducting a job interview.
+            Keep responses short and conversational.
+            To each of the candidate's responses always ask a follow up, technical question.
+            If the user makes a factual mistake, ask them about that. Every once in a while, ask design questions and/or industry-standard questions.
+            If there are mistakes that keep happening, detect when the user has an underlying misconception.
+            """
+        # """
+        # You are an interviewer conducting a job interview.
+        # Keep responses short and conversational.
+        # Catch mistakes, provide sources and always ask a follow up, technical question.
+        # If the user makes a mistake, ask them about that. Every once in a while, ask design questions and/or industry-standard questions.
+        # If there are mistakes that keep happening, detect when the user has an underlying misconception.
+        # """
+        }
+    ]
 
 def ask_perplexity(prompt: str) -> str:
     """
@@ -107,6 +124,8 @@ if len(sys.argv) > 1:
 else:
     user_input = input("Enter your prompt: ")  # Fallback manual input
 
-response = ask_perplexity(user_input)
-ask_perplexity(user_input)
-print("\nPerplexity AI Response:\n", response[0])
+while (True):
+    response = ask_perplexity(user_input)
+    ask_perplexity(user_input)
+    print("\nPerplexity AI Response:\n", response[0])
+    user_input = input("Enter your prompt: ")
