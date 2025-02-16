@@ -19,6 +19,8 @@ def speakText(command):
 def get_speech():
     MyText = ''
     r = sr.Recognizer()
+    r.energy_threshold = 386
+    # r.dynamic_energy_threshold = False
     try:
         with sr.Microphone() as source2:
                     
@@ -26,8 +28,8 @@ def get_speech():
             # adjust the energy threshold based on
             # the surrounding noise level 
             # TODO: make this adjustable for slower speakers who are more hesitant.
-            r.pause_threshold = 1.5
-            r.adjust_for_ambient_noise(source2, duration=0.2)
+            r.pause_threshold = 2.0
+            r.adjust_for_ambient_noise(source2, duration=0.5)
             
             #listens for the user's input 
             audio2 = r.listen(source2, timeout=None)

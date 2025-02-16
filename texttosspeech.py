@@ -16,6 +16,9 @@ def tts(saytext):
     )
     return audio
 
+def save_audio(audio, title="test.mp3"):
+    save(audio, title)
+
 def play_audio(audio):
     play(audio)
 

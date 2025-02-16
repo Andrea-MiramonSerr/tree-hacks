@@ -31,15 +31,7 @@ URL = "https://api.perplexity.ai/chat/completions"
 CONV_HIST = [
         {
             "role": "system",
-            "content":
-            """
-            You are an interviewer conducting a job interview.
-            Keep responses short and conversational.
-            To each of the candidate's responses always ask a follow up, technical question.
-            If the user makes a factual mistake, ask them about that. Every once in a while, ask design questions and/or industry-standard questions.
-            If there are mistakes that keep happening, detect when the user has an underlying misconception.
-            """
-        # """
+            "content": "You are an interviewer conducting a job interview. Please keep responses short and conversational. To candidate's responses ask follow up, technical questions. If the user makes a factual mistake, ask them about that. Questions are industry-standard. If candidate keeps making mistakes, address their underlying misconception. If the conversation drifts away from the interview topic, do guide the interviewee back."
         # You are an interviewer conducting a job interview.
         # Keep responses short and conversational.
         # Catch mistakes, provide sources and always ask a follow up, technical question.
@@ -49,7 +41,24 @@ CONV_HIST = [
         }
     ]
 
-def ask_perplexity(prompt: str) -> str:
+def insert_perplexity(admin_prompt: str):
+    CONV_HIST.append({"role": "system", "content": admin_prompt})
+    # initial_content = CONV_HIST[0]["content"]
+    # output_content = initial_content + admin_prompt
+    # CONV_HIST[0]["content"] = output_content
+    # response = requests.post(URL, headers=headers, data=json.dumps(data))
+
+    # if response.status_code == 200:
+    #     result = response.json()
+    #     text_response, citations = result["choices"][0]["message"]["content"], result["citations"]
+
+    #     # Add AI response to memory
+    #     CONV_HIST.append({"role": "assistant", "content": text_response})
+    #     return text_response, citations
+    # else:
+    #     return f"Error: {response.status_code}, {response.text}"
+
+def ask_perplexity(prompt: str, role:str = "user") -> str:
     """
     Initializes a perplexity API call: 
     - Asks for interview context #TODO: expand feature set to also social anxiety context 
@@ -69,7 +78,7 @@ def ask_perplexity(prompt: str) -> str:
         "Content-Type": "application/json"
     }
 
-    CONV_HIST.append({"role": "user", "content": prompt})
+    CONV_HIST.append({"role": role, "content": prompt})
 
     data = {
         "model": "sonar-pro",# Use best available model
@@ -89,7 +98,7 @@ def ask_perplexity(prompt: str) -> str:
 
     if response.status_code == 200:
         result = response.json()
-        text_response, citations = result["choices"][0]["message"]["content"], result["citations"]
+        text_response, citations = result["choices"][0]["message"]["content"], result.get("citations")
 
         # Add AI response to memory
         CONV_HIST.append({"role": "assistant", "content": text_response})
@@ -124,6 +133,13 @@ if len(sys.argv) > 1:
 else:
     user_input = input("Enter your prompt: ")  # Fallback manual input
 
+company = 'Big Tech Co.'
+interview_topic = 'Electrical Engineering'
+job = 'Junior VLSI designer.'
+n_rounds = 2
+iteration = 0
+insert_perplexity("Your role is an interviewer at {}. Please initiate the interview by introducing yourself, and telling the candidate the structure of the interview. Wait for the candidate confirmation before asking technical questions. The topic is {}. The candidate is interviewing for job {}. Do not apologize unnecessarily! After {} rounds of technical questions, move on to behavioral questions in the interview.".format(company, interview_topic, job, n_rounds))
+print(CONV_HIST[0])
 while (True):
     response = ask_perplexity(user_input)
     ask_perplexity(user_input)
