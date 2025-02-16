@@ -12,8 +12,9 @@ print(client)
 
 generation = client.generations.create(
 #   prompt="Filmed from point of view of a candidate getting interviewed by a manager for a job position. Manager is looking at the camera directly speaking to it. Background is a serious office. Make him say 'hello'.",
-prompt="A serious character in a suit is talking to the viewer. They are talking and making exaggerated expressions. Their mouth is open sometimes.",
-)
+# prompt="A serious character in a suit is talking to the viewer. They are talking and making exaggerated expressions. Their mouth is open sometimes.",
+# )
+prompt="Make a film where: a real-life manager looks at the camera opens their mouth every second as if they were talking, interviewing the candidate seriously, while eating a banana. ")
 
 completed = False
 while not completed:
@@ -22,8 +23,6 @@ while not completed:
     completed = True
   elif generation.state == "failed":
     raise RuntimeError(f"Generation failed: {generation.failure_reason}")
-  print("Dreaming")
-  time.sleep(3)
 
 video_url = generation.assets.video
 

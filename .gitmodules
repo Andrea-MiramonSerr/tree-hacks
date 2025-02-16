@@ -1,0 +1,3 @@
+[submodule "AniPortrait"]
+	path = AniPortrait
+	url = https://github.com/Zejun-Yang/AniPortrait.git
