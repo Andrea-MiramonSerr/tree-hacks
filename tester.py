@@ -127,21 +127,21 @@ def ask_perplexity(prompt: str, role:str = "user") -> str:
     
 
 # ----------------- USAGE -----------------
-import sys #TODO: remove - only here for debugging purposes
-if len(sys.argv) > 1:
-    user_input = sys.argv[1]  # Takes input from launch.json
-else:
-    user_input = input("Enter your prompt: ")  # Fallback manual input
+# import sys #TODO: remove - only here for debugging purposes
+# if len(sys.argv) > 1:
+#     user_input = sys.argv[1]  # Takes input from launch.json
+# else:
+#     user_input = input("Enter your prompt: ")  # Fallback manual input
 
-company = 'Big Tech Co.'
-interview_topic = 'Electrical Engineering'
-job = 'Junior VLSI designer.'
-n_rounds = 2
-iteration = 0
-insert_perplexity("Your role is an interviewer at {}. Please initiate the interview by introducing yourself, and telling the candidate the structure of the interview. Wait for the candidate confirmation before asking technical questions. The topic is {}. The candidate is interviewing for job {}. Do not apologize unnecessarily! After {} rounds of technical questions, move on to behavioral questions in the interview.".format(company, interview_topic, job, n_rounds))
-print(CONV_HIST[0])
-while (True):
-    response = ask_perplexity(user_input)
-    ask_perplexity(user_input)
-    print("\nPerplexity AI Response:\n", response[0])
-    user_input = input("Enter your prompt: ")
+# company = 'Big Tech Co.'
+# interview_topic = 'Electrical Engineering'
+# job = 'Junior VLSI designer.'
+# n_rounds = 2
+# iteration = 0
+# insert_perplexity("Your role is an interviewer at {}. Please initiate the interview by introducing yourself, and telling the candidate the structure of the interview. Wait for the candidate confirmation before asking technical questions. The topic is {}. The candidate is interviewing for job {}. Do not apologize unnecessarily! After {} rounds of technical questions, move on to behavioral questions in the interview.".format(company, interview_topic, job, n_rounds))
+# print(CONV_HIST[0])
+# while (True):
+#     response = ask_perplexity(user_input)
+#     ask_perplexity(user_input)
+#     print("\nPerplexity AI Response:\n", response[0])
+#     user_input = input("Enter your prompt: ")

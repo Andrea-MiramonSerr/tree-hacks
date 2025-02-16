@@ -1,4 +1,71 @@
 <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interview Practice App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Interview Practice</h1>
+        <form id="question-form">
+            <label for="company">Company:</label><br>
+            <input type="text" id="company" name="company" required><br>
+            <label for="job-field">Field:</label><br>
+            <input type="text" id="job-field" name="job-field" required><br>
+            <label for="job-role">Position interviewing for:</label><br>
+            <input type="text" id="job-role" name="job-role" required><br>
+
+            <button type="submit">Start Conversation</button>
+        </form>
+        <button id="record-btn">Start Recording</button>
+        <div id="responses">
+            <h2>Responses:</h2>
+            <ul id="response-list"></ul>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+
+</html>
+
+
+
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interview Practice App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Interview Practice</h1>
+        <form id="question-form">
+            <label for="question">Ask a question:</label><br>
+            <input type="text" id="question" name="question" required>
+            <button type="submit">Ask</button>
+        </form>
+        <button id="record-btn">Start Recording</button>
+        <div id="responses">
+            <h2>Responses:</h2>
+            <ul id="response-list"></ul>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+
+</html>
+
+ <!DOCTYPE html>
 <html>
 
 <head>
@@ -23,4 +90,4 @@
     <a href="/about">About</a>
 </body>
 
-</html>
+</html> -->
