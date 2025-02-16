@@ -1,86 +1,18 @@
-# import os
-# import logging
-# from flask import Flask, render_template, request, jsonify
-# from tester import ask_perplexity
-# import speech_recognition as sr
-# from pydub import AudioSegment
-
-# app = Flask(__name__)
-# app.config['UPLOAD_FOLDER'] = 'static/audio'
-# ALLOWED_EXTENSIONS = {'wav', 'mp3'}
-
-# def allowed_file(filename):
-#     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-
-# def transcribe_audio(file_path):
-#     recognizer = sr.Recognizer()
-#     # Convert MP3 to WAV for compatibility with speech_recognition
-#     if file_path.endswith('.mp3'):
-#         sound = AudioSegment.from_mp3(file_path)
-#         file_path = file_path.replace('.mp3', '.wav')
-#         sound.export(file_path, format='wav')
-
-#     with sr.AudioFile(file_path) as source:
-#         audio = recognizer.record(source)
-#         try:
-#             text = recognizer.recognize_google(audio)
-#             return text
-#         except sr.UnknownValueError:
-#             return "Could not understand audio"
-#         except sr.RequestError as e:
-#             return f"Could not request results; {e}"
-
-# @app.route('/')
-# def index():
-#     return render_template('index.html')
-
-# @app.route('/ask', methods=['POST'])
-# def ask():
-#     if 'file' not in request.files:
-#         return jsonify({'response': 'No file part'}), 400
-
-#     file = request.files['file']
-#     if file.filename == '':
-#         return jsonify({'response': 'No selected file'}), 400
-
-#     if file and allowed_file(file.filename):
-#         filename = file.filename
-#         file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-#         file.save(file_path)
-#         logging.info(f'File saved to {file_path}')
-
-#         transcription = transcribe_audio(file_path)
-#         logging.info(f'Transcribed text: {transcription}')
-
-#         user_input = transcription
-#         response = ask_perplexity(transcription)
-#         reply, citation = response
-#         return jsonify({'response': response})
-
-#     return jsonify({'response': 'Invalid file type'}), 400
-
-# if __name__ == '__main__':
-#     logging.basicConfig(level=logging.INFO)
-#     app.run(debug=True)
-
-
-
-
-
-
-
-from flask import Flask, render_template, request, url_for, jsonify
+from flask import Flask, render_template, request, url_for, jsonify, redirect, send_from_directory
 from tester import ask_perplexity, insert_perplexity
+from texttosspeech import tts, save_audio, play_audio
 import speech_recognition as sr
 import os
 from pydub import AudioSegment
-import soundfile
-import wave
+import logging
+# import soundfile
+# import wave
 
 # Initialize the Flask application
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'static/audio'
 ALLOWED_EXTENSIONS = {'wav'}
+AUDIO_DIRECTORY = 'static/audio'
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -155,6 +87,9 @@ def ask():
             response = ask_perplexity(transcription)
             reply, citation = response
             reply = parse_reply(reply)
+            audio = tts(reply)
+            save_audio(audio, os.path.join(app.config['UPLOAD_FOLDER'], 'reply.mp3'))
+            play_audio(audio)
         if (status != 0):
             user_input = 'Please record it again.'
         
@@ -166,7 +101,14 @@ def updateparams():
         company = request.form['company']
         field = request.form['field']
         role = request.form['role']
-        insert_perplexity("Your role is an interviewer at {}. Please initiate the interview by introducing yourself, and telling the candidate the structure of the interview. Wait for the candidate confirmation before asking technical questions. The topic is {}. The candidate is interviewing for job {}. Do not apologize unnecessarily!".format(company, field, role))
+        insert_perplexity("Your name is Connor. Your role is an interviewer at {}. Please initiate the interview by introducing yourself, and telling the candidate the structure of the interview. Wait for the candidate confirmation before asking technical questions. The topic is {}. The candidate is interviewing for job {}. Do not apologize unnecessarily!".format(company, field, role))
+        print(company, flush=True)
+        return render_template('index.html', company=company, field=field, role=role)
+    return redirect(url_for('home'))
+
+@app.route('/audio/<filename>')
+def serve_audio(filename):
+    return send_from_directory(AUDIO_DIRECTORY, filename)
 
 # Additional route example
 @app.route('/about')
@@ -175,4 +117,76 @@ def about():
 
 # The main function to run the app
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)
+
+
+
+# import os
+# import logging
+# from flask import Flask, render_template, request, jsonify
+# from tester import ask_perplexity
+# import speech_recognition as sr
+# from pydub import AudioSegment
+
+# app = Flask(__name__)
+# app.config['UPLOAD_FOLDER'] = 'static/audio'
+# ALLOWED_EXTENSIONS = {'wav', 'mp3'}
+
+# def allowed_file(filename):
+#     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+# def transcribe_audio(file_path):
+#     recognizer = sr.Recognizer()
+#     # Convert MP3 to WAV for compatibility with speech_recognition
+#     if file_path.endswith('.mp3'):
+#         sound = AudioSegment.from_mp3(file_path)
+#         file_path = file_path.replace('.mp3', '.wav')
+#         sound.export(file_path, format='wav')
+
+#     with sr.AudioFile(file_path) as source:
+#         audio = recognizer.record(source)
+#         try:
+#             text = recognizer.recognize_google(audio)
+#             return text
+#         except sr.UnknownValueError:
+#             return "Could not understand audio"
+#         except sr.RequestError as e:
+#             return f"Could not request results; {e}"
+
+# @app.route('/')
+# def index():
+#     return render_template('index.html')
+
+# @app.route('/ask', methods=['POST'])
+# def ask():
+#     if 'file' not in request.files:
+#         return jsonify({'response': 'No file part'}), 400
+
+#     file = request.files['file']
+#     if file.filename == '':
+#         return jsonify({'response': 'No selected file'}), 400
+
+#     if file and allowed_file(file.filename):
+#         filename = file.filename
+#         file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+#         file.save(file_path)
+#         logging.info(f'File saved to {file_path}')
+
+#         transcription = transcribe_audio(file_path)
+#         logging.info(f'Transcribed text: {transcription}')
+
+#         user_input = transcription
+#         response = ask_perplexity(transcription)
+#         reply, citation = response
+#         return jsonify({'response': response})
+
+#     return jsonify({'response': 'Invalid file type'}), 400
+
+# if __name__ == '__main__':
+#     logging.basicConfig(level=logging.INFO)
+#     app.run(debug=True)
+
+
+
+
+

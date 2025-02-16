@@ -11,20 +11,24 @@
 <body>
     <div class="container">
         <h1>Interview Practice</h1>
-        <form id="question-form">
-            <label for="company">Company:</label><br>
-            <input type="text" id="company" name="company" required><br>
-            <label for="job-field">Field:</label><br>
-            <input type="text" id="job-field" name="job-field" required><br>
-            <label for="job-role">Position interviewing for:</label><br>
-            <input type="text" id="job-role" name="job-role" required><br>
+        <form id="question-form" action="{{ url_for('updateparams') }}" method="POST">
+            <label for=" company">Company:</label><br>
+            <input type="text" id="company" name="company" value="{{company}}" required><br>
+            <label for="field">Field:</label><br>
+            <input type="text" id="field" name="field" value="{{field}}" required><br>
+            <label for="role">Position interviewing for:</label><br>
+            <input type="text" id="role" name="role" value="{{role}}" required><br>
 
-            <button type="submit">Start Conversation</button>
+            <button type='submit' id="start-convo">Start Conversation</button>
         </form>
         <button id="record-btn">Start Recording</button>
         <div id="responses">
             <h2>Responses:</h2>
             <ul id="response-list"></ul>
+            <!-- <audio controls autoplay>
+                <source src="{{ url_for('serve_audio', filename='reply.mp3') }}" type="audio/mp3">
+                Your browser does not support the audio element.
+            </audio> -->
         </div>
     </div>
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>

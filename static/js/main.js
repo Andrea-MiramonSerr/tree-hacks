@@ -102,6 +102,7 @@
 
 document.addEventListener("DOMContentLoaded", function() {
     const recordButton = document.getElementById('record-btn');
+    const submitButton = document.getElementById('start-convo');
     const responseList = document.getElementById('response-list');
     let mediaRecorder;
     let isRecording = false;
@@ -148,29 +149,26 @@ document.addEventListener("DOMContentLoaded", function() {
         isRecording = false;
     }
 
-    form.addEventListener('submit', function(event) {
-        event.preventDefault();
-        const company = document.getElementById('company').value;
-        const jobfield = document.getElementById('job-field').value;
-        const jobrole = document.getElementById('job-role').value;
-        if (!jobfield || !jobrole) return;
+    // submitButton.addEventListener('submit', function(event) {
+    //     event.preventDefault();
+    //     const company = document.getElementById('company').value;
+    //     const jobfield = document.getElementById('job-field').value;
+    //     const jobrole = document.getElementById('job-role').value;
+    //     if (!jobfield || !jobrole) return;
         
-        fetch('/updateparams', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ field: jobfield, name: jobrole, company: company })
-        })
-        .then(response => response.json())
-        .then(data => {})
-        .catch((error) => {
-            console.error('Error:', error);
-        });
-
-        // Clear input
-        document.getElementById('question').value = '';
-    });
+    //     fetch('/updateparams', {
+    //         method: 'POST',
+    //         headers: {
+    //             'Content-Type': 'application/json'
+    //         },
+    //         body: JSON.stringify({ field: jobfield, name: jobrole, company: company })
+    //     })
+    //     .then(response => response.json())
+    //     .then(data => {})
+    //     .catch((error) => {
+    //         console.error('Error:', error);
+    //     });
+    // });
 
     function sendDataToServer(audioBlob) {
         const formData = new FormData();
