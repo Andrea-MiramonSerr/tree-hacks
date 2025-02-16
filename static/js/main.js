@@ -134,7 +134,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     // uncomment to use wav format instead
                     const audioUrl = URL.createObjectURL(audioBlob);
                     const audio = new Audio(audioUrl);
-                    audio.play();
+                    // audio.play();
                     sendDataToServer(audioBlob);
                     // convertAndSendToServer(audioBlob);
                 });
@@ -194,6 +194,12 @@ document.addEventListener("DOMContentLoaded", function() {
                 li.textContent = data.response;
                 responseList.appendChild(li);
             }
+            // if (data.audio_filename){
+            const audioPlayer = document.getElementById('reply-audio');
+            audioPlayer.src = `${data.audio_filename}`;
+            audioPlayer.play();
+            audioPlayer.style.display = 'block';
+            // }
         })
         .catch((error) => {
             console.error('Error:', error);

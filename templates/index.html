@@ -10,7 +10,7 @@
 
 <body>
     <div class="container">
-        <h1>Interview Practice</h1>
+        <h1>TalkThru</h1>
         <form id="question-form" action="{{ url_for('updateparams') }}" method="POST">
             <label for=" company">Company:</label><br>
             <input type="text" id="company" name="company" value="{{company}}" required><br>
@@ -22,13 +22,16 @@
             <button type='submit' id="start-convo">Start Conversation</button>
         </form>
         <button id="record-btn">Start Recording</button>
+        <video width="800" controls loop>
+            <source src="{{ url_for('static', filename='v1.mp4' ) }}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
         <div id="responses">
             <h2>Responses:</h2>
             <ul id="response-list"></ul>
-            <!-- <audio controls autoplay>
-                <source src="{{ url_for('serve_audio', filename='reply.mp3') }}" type="audio/mp3">
-                Your browser does not support the audio element.
-            </audio> -->
+            <audio controls id="reply-audio" style="display:none;">
+
+            </audio>
         </div>
     </div>
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>

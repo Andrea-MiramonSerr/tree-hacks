@@ -2,10 +2,12 @@ from dotenv import load_dotenv
 from elevenlabs.client import ElevenLabs
 from elevenlabs import play, stream, save
 
-ELEVENLABS_API_KEY = 'sk_e5f53a150de75465187a3fa312e6cbca028f3454447133ca'
+# ELEVENLABS_API_KEY = 'sk_e5f53a150de75465187a3fa312e6cbca028f3454447133ca'
+ELEVENLABS_API_KEY = 'sk_a1af276616b5ec2671ea1dfd2f5345b2a1135569160964bf'
 load_dotenv()
 client = ElevenLabs(api_key = ELEVENLABS_API_KEY)
 voiceID = 'EkK5I93UQWFDigLMpZcX'
+# voiceID = 'TX3LPaxmHKxFdv7VOQHJ'
 
 def tts(saytext):
     audio = client.text_to_speech.convert(

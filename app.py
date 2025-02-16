@@ -93,7 +93,7 @@ def ask():
         if (status != 0):
             user_input = 'Please record it again.'
         
-        return jsonify({'user_input': user_input, 'status': status, 'response': reply})
+        return jsonify({'user_input': user_input, 'status': status, 'response': reply, 'audio_filename': os.path.join(app.config['UPLOAD_FOLDER'], 'reply.mp3')})
 
 @app.route('/updateparams', methods=['POST'])
 def updateparams():
@@ -106,9 +106,9 @@ def updateparams():
         return render_template('index.html', company=company, field=field, role=role)
     return redirect(url_for('home'))
 
-@app.route('/audio/<filename>')
-def serve_audio(filename):
-    return send_from_directory(AUDIO_DIRECTORY, filename)
+# @app.route('/audio/<filename>')
+# def serve_audio(filename):
+#     return send_from_directory(AUDIO_DIRECTORY, filename, as_attachment=True, mimetype='audio/mp3')
 
 # Additional route example
 @app.route('/about')
